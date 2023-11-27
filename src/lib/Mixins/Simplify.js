@@ -1,0 +1,1 @@
+<script type="text/javascript" src="https://www.simplify.com/commerce/simplify.pay.js"></script>
