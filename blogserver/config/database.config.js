@@ -1,3 +1,3 @@
 module.exports = {
-    url: 'mongodb://127.0.0.1:27017/blog'
+    url: 'mongodb+srv://ashish08:Testing08@blogapp.9b7qrjm.mongodb.net/blog'
 }

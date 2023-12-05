@@ -4,7 +4,7 @@ const Blog = require('../models/Blog');
 const create = async (req, res) => {
     try {
       const { title, content, userId, categoryId } = req.body;
-      
+      //console.log(title,content,userId,categoryId)
       const newBlog = new Blog({
         title,
         content,

@@ -1,0 +1,18 @@
+.iconLarge{
+    font-size: 2rem;
+}
+.list-group-item {
+    transition: background-color 0.3s ease;
+  }
+  .list-group-item:nth-child(odd):hover {
+    background-color: rgb(76, 81, 228);
+    cursor: pointer;
+    color: white;
+  }
+  
+  .list-group-item:nth-child(even):hover {
+    background-color: rgb(76, 81, 228);
+    cursor: pointer;
+    color: white;
+  }
+  
