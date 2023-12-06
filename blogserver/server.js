@@ -29,8 +29,8 @@ const categoryRoutes = require('./routes/categoryRoutes.js');
 app.use('/api/secured/categories', categoryRoutes);
 
 const blogRoutes = require('./routes/blogRoutes.js');
- app.use('/api/secured/blogs', blogRoutes);
-//app.use('/create', blogRoutes);
+//app.use('/api/secured/blogs', blogRoutes);
+app.use('/create', blogRoutes);
 const commentRoutes = require('./routes/commentRoutes.js');
 app.use('/api/secured/comments', commentRoutes);
 // Start server

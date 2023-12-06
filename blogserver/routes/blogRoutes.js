@@ -3,6 +3,8 @@ const router = express.Router();
 const { verifyToken } = require('../middlewares/auth');
 const Blog = require('../models/Blog');
 const { validateBlog, validate } = require('../middlewares/validator');
+const multer = require('multer');
+const path = require('path');
 const {
   create,
   getAll,
@@ -14,19 +16,29 @@ const {
 
 // Create a new item (requires token validation)
  router.post('/', verifyToken, validateBlog, validate, create);
-// router.post('/', async(req,res)=>{
+ //normal route image is stored and work with this route
+//  let imgStore = multer.diskStorage({
+//   destination:function(req,file,cb){
+//     cb(null,'./public/img')},
+//     filename: function (req, file, cb) {
+//         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+//     }
+//   })
+// let upload = multer({storage:imgStore});
+// router.post('/',upload.single('image'), async(req,res)=>{
 //   try {
-//     const { title, content, userId, categoryId } = req.body;
-//     //console.log(title,content,userId,categoryId)
-//     const newBlog = new Blog({
-//       title,
-//       content,
-//       user: userId,
-//       category: categoryId,
-//     });
-//     const savedBlog = await newBlog.save();
+//     const { title, content} = req.body;
+//     const imagePath = req.file;
+//     console.log(title,content,imagePath.filename)
+//     // const newBlog = new Blog({
+//     //   title,
+//     //   content,
+//     //   user: userId,
+//     //   category: categoryId,
+//     // });
+//     // const savedBlog = await newBlog.save();
 
-//     res.status(201).json({status:201,  message: 'success',data:savedBlog  });
+//     // res.status(201).json({status:201,  message: 'success',data:savedBlog  });
 //   } catch (error) {
 //     console.error(error);
 //     res.status(500).json({status:500, message: 'Internal Server Error' });

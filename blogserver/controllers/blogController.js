@@ -1,19 +1,31 @@
+const multer = require('multer');
+const path = require('path');
 const Blog = require('../models/Blog');
-
-
+//image upload portion it works perfect once api path is well structured with user toker verify
+// let imgStore = multer.diskStorage({
+//   destination:function(req,file,cb){
+//     cb(null,'./public/img')},
+//     filename: function (req, file, cb) {
+//         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+//     }
+//   })
+// let upload = multer({storage:imgStore}).single('image');
 const create = async (req, res) => {
     try {
-      const { title, content, userId, categoryId } = req.body;
-      //console.log(title,content,userId,categoryId)
-      const newBlog = new Blog({
-        title,
-        content,
-        user: userId,
-        category: categoryId,
-      });
-      const savedBlog = await newBlog.save();
+      //upload(req, res, async function(err) {
+      const { title, content } = req.body;
+      const imagePath = req.file.path;
+      console.log(title,content,imagePath)
+      // const newBlog = new Blog({
+      //   title,
+      //   content,
+      //   user: userId,
+      //   category: categoryId,
+      // });
+      // const savedBlog = await newBlog.save();
   
-      res.status(201).json({status:201,  message: 'success',data:savedBlog  });
+      // res.status(201).json({status:201,  message: 'success',data:savedBlog  });
+      //})
     } catch (error) {
       console.error(error);
       res.status(500).json({status:500, message: 'Internal Server Error' });
