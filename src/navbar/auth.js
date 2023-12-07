@@ -1,6 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link,useLocation  } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import AuthUser from '../views/AuthUser';
+import HomeRoutes from './HomeRoutes';
+import logo from '../app-assets/images/logo/logo.png';
 function Auth() {
     const { token, logout } = AuthUser();
     const logoutUser = () => {
@@ -8,13 +10,16 @@ function Auth() {
             logout();
         }
     }
-    
+    const location = useLocation();
+
+  // Check if the current URL contains the keyword "dashboard"
+  const showSidebar = location.pathname.includes('dashboard');
     return (
         <>
             <nav class="header-navbar navbar-expand-lg navbar navbar-fixed align-items-center navbar-shadow navbar-brand-center" data-nav="brand-center">
                 <div class="navbar-container d-flex content">
                     <div class="bookmark-wrapper d-flex align-items-center">
-                        
+                        <img src={logo} />
                     </div>
                     <ul class="nav navbar-nav align-items-center ms-auto">
                     
@@ -35,7 +40,7 @@ function Auth() {
             <div className="app-content content email-application">
                 <div className="content-overlay"></div>
                 <div className="header-navbar-shadow"></div>
-                <Sidebar />
+                {showSidebar ? <Sidebar /> : <HomeRoutes/>}
             </div>
         </>
     );

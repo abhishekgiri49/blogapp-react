@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Breadcrumb from '../../navbar/Breadcrumb';
 import BlogService from '../../repositories/BlogService';
-
+import CKEditorComponent from '../CKEditorComponent';
 import CategoryService from '../../repositories/CategoryService';
 const Add = () => {
   const [title, setTitle] = useState('');
@@ -15,7 +15,9 @@ const Add = () => {
   useEffect(() => {
     fetchCategoryList();
 }, []);
-
+const handleEditorChange = (newContent) => {
+  setContent(newContent);
+};
 const fetchCategoryList = () => {
     CategoryService.get().then(data => {
       if (Array.isArray(data)) {
@@ -80,13 +82,7 @@ const fetchCategoryList = () => {
                       <label htmlFor="content" className="form-label">
                         content
                       </label>
-                      <textarea
-                        className="form-control"
-                        id="content"
-                        rows="3"
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                      ></textarea>
+                      <CKEditorComponent data={content} onChange={handleEditorChange} />
                     </div>
                     <div className="mb-3">
                       <label htmlFor="category" className="form-label">

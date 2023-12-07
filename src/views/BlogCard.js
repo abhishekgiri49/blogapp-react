@@ -3,17 +3,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import image from '../app-assets/images/slider/02.jpg';
 
-
+import TextLimitedComponent from '../navbar/TextLimitedComponent';
 const BlogCard = ({ blog }) => {
     return (
         <div className="col-md-6 col-12">
             <div className="card">
-                <Link to={`page-blog-detail/${blog.id}`}>
+                <Link to={`/blog-detail/${blog.id}`}>
                     <img className="card-img-top img-fluid" src={image} alt="Blog Post pic" />
                 </Link>
                 <div className="card-body">
                     <h4 className="card-title">
-                        <Link to={`page-blog-detail/${blog.id}`} className="blog-title-truncate text-body-heading">
+                        <Link to={`/blog-detail/${blog.id}`} className="blog-title-truncate text-body-heading">
                             {blog.title}
                         </Link>
                     </h4>
@@ -30,17 +30,17 @@ const BlogCard = ({ blog }) => {
                     </div>
                     
                     <p className="card-text blog-content-truncate">
-                        {blog.content}
+                        <TextLimitedComponent htmlContent={blog.content} maxLength={50} />
                     </p>
                     <hr />
                     <div className="d-flex justify-content-between align-items-center">
-                        <Link to={`page-blog-detail/${blog.id}#blogComment`}>
+                        <Link to={`/blog-detail/${blog.id}#blogComment`}>
                             <div className="d-flex align-items-center">
                                 <i data-feather="message-square" className="font-medium-1 text-body me-50"></i>
                                 {/* <span className="text-body fw-bold">{blog.comments} Comments</span> */}
                             </div>
                         </Link>
-                        <Link to={`page-blog-detail/${blog.id}`} className="fw-bold">Read More</Link>
+                        <Link to={`/blog-detail/${blog.id}`} className="fw-bold">Read More</Link>
                     </div>
                 </div>
             </div>

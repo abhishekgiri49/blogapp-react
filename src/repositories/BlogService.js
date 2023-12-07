@@ -36,7 +36,28 @@ const BlogService = {
         });
     });
   },
-
+  findforPublic(id) {
+    return new Promise((resolve, reject) => {
+      Repository.get(`/public/blogs/${id}`)
+        .then(response => {
+          resolve(response.data.data);
+        })
+        .catch(error => {
+          reject(error.response);
+        });
+    });
+  },
+  getBlogbyCategory(id) {
+    return new Promise((resolve, reject) => {
+      Repository.get(`/public/blogs/getby-category/${id}`)
+        .then(response => {
+          resolve(response.data.data);
+        })
+        .catch(error => {
+          reject(error.response);
+        });
+    });
+  },
   create(payload,id) {
     return new Promise((resolve, reject) => {
       Repository.post(`${resource}/create/category/${id}`, payload)

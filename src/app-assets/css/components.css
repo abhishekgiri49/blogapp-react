@@ -49,7 +49,7 @@ html .content.app-content .content-overlay {
 html .content.app-content .content-area-wrapper {
   display: flex;
   position: relative;
-  overflow: hidden; }
+   }
 
 html .content.app-content .content-area-wrapper .content-wrapper,
 html .content.app-content .content-area-wrapper .content-body {

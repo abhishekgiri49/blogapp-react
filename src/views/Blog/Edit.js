@@ -4,6 +4,7 @@ import Breadcrumb from '../../navbar/Breadcrumb';
 import BlogService from '../../repositories/BlogService';
 import CategoryService from '../../repositories/CategoryService';
 
+import CKEditorComponent from '../CKEditorComponent';
 const Edit = () => {
   const { blogId } = useParams(); // Get the blog id from the URL
   const [title, setTitle] = useState('');
@@ -20,7 +21,9 @@ const Edit = () => {
     fetchBlogDetails();
     fetchCategoryList();
   }, [blogId]);
-
+  const handleEditorChange = (newContent) => {
+    setContent(newContent);
+  };
   const fetchBlogDetails = () => {
     // Fetch blog details based on the id
     BlogService.find(blogId)
@@ -99,13 +102,7 @@ const Edit = () => {
                       <label htmlFor="content" className="form-label">
                         content
                       </label>
-                      <textarea
-                        className="form-control"
-                        id="content"
-                        rows="3"
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                      ></textarea>
+                      <CKEditorComponent data={content} onChange={handleEditorChange} />
                     </div>
                     <div className="mb-3">
                       <label htmlFor="category" className="form-label">

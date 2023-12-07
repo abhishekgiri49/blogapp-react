@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link  } from 'react-router-dom';
 import Breadcrumb from '../../navbar/Breadcrumb';
 import BlogService from '../../repositories/BlogService';
+import TextLimitedComponent from '../../navbar/TextLimitedComponent';
 export default function List() {
     const [blogs, setBlogs] = useState('');
     const customPath = '/Blog/list';
@@ -35,7 +36,7 @@ export default function List() {
                     <tr key={blog.id}>
                         <td>{index + 1}</td>
                         <td>{blog.title}</td>
-                        <td>{blog.content}</td>
+                        <td> <TextLimitedComponent htmlContent={blog.content} maxLength={50} /></td>
                         <td>{blog.category.title}</td>
                         <td><Link to={`/dashboard/blog/edit/${blog.id}`}> <button type="button" class="btn btn-outline-primary">Edit</button></Link>
                         <button type="button" class="btn btn-outline-danger" onClick={() => handleDelete(blog.id)}>Delete</button></td>

@@ -32,7 +32,7 @@ const AuthService = {
   register(payload) {
     return new Promise((resolve, reject) => {
       axios
-        .post(`${resource}/api/register`, payload)
+        .post(`${resource}/api/public/auth/register`, payload)
         .then(response => {
           resolve(response.data);
         })

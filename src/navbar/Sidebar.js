@@ -11,9 +11,9 @@ function Sidebar() {
                         <div className="sidebar-content email-app-sidebar">
                             <div className="email-app-menu">
                                 <div className="form-group-compose text-center compose-btn">
-                                    <button type="button" className="compose-email btn btn-primary w-100">
+                                <Link to="/dashboard/blog/add"><button type="button" className="compose-email btn btn-primary w-100">
                                         New Blog
-                                    </button>
+                                    </button></Link>
                                 </div>
                                 <div className="sidebar-menu-list">
                                     <div className="list-group list-group-messages">

@@ -3,16 +3,31 @@ import { useState } from "react"
 import { Link } from 'react-router-dom';
 import AuthUser from './AuthUser';
 import '../app-assets/css/pages/authentication.css';
-export default function Login() {
+export default function Register() {
     const {http,setToken} = AuthUser();
+    const [successMessage, setSuccessMessage] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
+    
     const [email,setEmail] = useState();
     const [password,setPassword] = useState();
-
+    const [name,setName] = useState();
+    const [username,setUsername] = useState();
+    
+  
+      // Add blog
+    const user = { name, username,email,password };
+    
     const submitForm = () =>{
         // api call
-        http.post('/public/auth/login',{email:email,password:password}).then((res)=>{
-            setToken(res.data.data.user,res.data.data.token);
-        })
+        if (!name || !username || !email || !password) {
+            setErrorMessage('Please fill out all fields');
+          }
+        http.post('/public/auth/register',user).then((res)=>{
+            setSuccessMessage('Registration Successful');
+        }).catch((error) => {
+            setErrorMessage('Error adding blog. Please try again.');
+            
+          });
     }
 
     return(
@@ -31,10 +46,25 @@ export default function Login() {
                                     <h2 class="brand-text text-primary ms-1">Bloggers</h2>
                                 </a>
 
-                                <h4 class="card-title mb-1">Welcome to Bloggers 👋</h4>
-                                <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
-
-                               
+                                <h4 class="card-title mb-1">Register to Bloggers 👋</h4>
+                                {errorMessage && (
+                      <div className="alert alert-danger" role="alert">
+                        {errorMessage}
+                      </div>
+                    )}
+                    {successMessage && (
+                      <div className="alert alert-success" role="alert">
+                        {successMessage}
+                      </div>
+                    )}
+                                <div class="mb-1">
+                                        <label for="login-email" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="login-email"onChange={e=>setName(e.target.value)} placeholder="john@example.com" aria-describedby="login-name" tabindex="1" autofocus />
+                                    </div>
+                                    <div class="mb-1">
+                                        <label for="login-email" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="login-email"onChange={e=>setUsername(e.target.value)} placeholder="adaaa" aria-describedby="login-username" tabindex="1" autofocus />
+                                    </div>
                                     <div class="mb-1">
                                         <label for="login-email" class="form-label">Email</label>
                                         <input type="text" class="form-control" id="login-email"onChange={e=>setEmail(e.target.value)} placeholder="john@example.com" aria-describedby="login-email" tabindex="1" autofocus />
@@ -55,9 +85,9 @@ export default function Login() {
                                 
 
                                 <p class="text-center mt-2">
-                                    <span>New on our platform?</span>
-                                    <Link to={'/register'}>
-                                        <span>Create an account</span>
+                                    <span>Already registerd?</span>
+                                    <Link to={'/login'}>
+                                        <span>Login</span>
                                     </Link>
                                 </p>
 
