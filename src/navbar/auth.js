@@ -1,20 +1,25 @@
-import { Routes, Route, Link } from 'react-router-dom';
-import Home from '../views/Home';
+import { Link } from 'react-router-dom';
+import Sidebar from './Sidebar';
 import AuthUser from '../views/AuthUser';
-import Dashboard from '../views/Dashboard';
 function Auth() {
-    const {token,logout} = AuthUser();
+    const { token, logout } = AuthUser();
     const logoutUser = () => {
-        if(token !== undefined){
+        if (token !== undefined) {
             logout();
         }
     }
+    
     return (
         <>
-            <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
-                <ul className="navbar-nav">
+            <nav class="header-navbar navbar-expand-lg navbar navbar-fixed align-items-center navbar-shadow navbar-brand-center" data-nav="brand-center">
+                <div class="navbar-container d-flex content">
+                    <div class="bookmark-wrapper d-flex align-items-center">
+                        
+                    </div>
+                    <ul class="nav navbar-nav align-items-center ms-auto">
+                    
                     <li className="nav-item">
-                        <Link className="nav-link" to="/">Home</Link>
+                        <Link className="nav-link" to="/home">Home</Link>
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/dashboard">Dashboard</Link>
@@ -23,14 +28,14 @@ function Auth() {
                         <span role="button" className="nav-link" onClick={logoutUser}>Logout</span>
                     </li>
 
-                </ul>
-
+                        
+                    </ul>
+                </div>
             </nav>
-            <div className="container">
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                </Routes>
+            <div className="app-content content email-application">
+                <div className="content-overlay"></div>
+                <div className="header-navbar-shadow"></div>
+                <Sidebar />
             </div>
         </>
     );

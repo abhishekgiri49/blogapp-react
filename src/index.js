@@ -1,10 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+// import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from 'react-router-dom';
 
+
+import './app-assets/css/bootstrap-extended.css';
+import './app-assets/css/colors.css';
+import './app-assets/css/components.css';
+import './app-assets/css/themes/dark-layout.css';
+import './app-assets/css/themes/bordered-layout.css';
+import './app-assets/css/core/menu/menu-types/horizontal-menu.css';
+import './app-assets/css/plugins/forms/form-quill-editor.css';
+import './app-assets/css/plugins/extensions/ext-component-toastr.css';
+import './app-assets/css/pages/app-email.css';
 ReactDOM.render(
   <BrowserRouter>
     <App />
