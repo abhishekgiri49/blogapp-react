@@ -4,8 +4,8 @@ import { Routes, Route } from 'react-router-dom';
 export default () => {
     return (
         <Routes>
-                    <Route path="/home" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
-                </Routes>
+            <Route path="/home" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+        </Routes>
     )
 };

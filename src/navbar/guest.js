@@ -26,7 +26,7 @@ function Guest() {
                         </ul>
                     </div>
                 </nav>
-                <div className="app-content content email-application">
+                <div className="app-content content">
                     <div className="content-overlay"></div>
                     <div className="header-navbar-shadow"></div>
                     <HomeRoutes/>

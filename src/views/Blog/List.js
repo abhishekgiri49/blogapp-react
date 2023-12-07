@@ -11,7 +11,7 @@ export default function List() {
     }, []);
 
     const fetchBlogList = () => {
-        BlogService.get().then(data => {
+        BlogService.getbyUser().then(data => {
             setBlogs(data);
         });
     }

@@ -5,7 +5,7 @@ const resource = '/secured/blogs';
 const BlogService = {
   get() {
     return new Promise((resolve, reject) => {
-      Repository.get(`${resource}/`)
+      Repository.get(`/public/blogs/`)
         .then(response => {
           resolve(response.data.data);
         })
@@ -14,7 +14,17 @@ const BlogService = {
         });
     });
   },
-
+  getbyUser() {
+    return new Promise((resolve, reject) => {
+      Repository.get(`${resource}/user/posts`)
+        .then(response => {
+          resolve(response.data.data);
+        })
+        .catch(error => {
+          reject(error.response);
+        });
+    });
+  },
   find(id) {
     return new Promise((resolve, reject) => {
       Repository.get(`${resource}/${id}`)
