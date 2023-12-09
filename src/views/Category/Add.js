@@ -7,7 +7,7 @@ const Add = () => {
   const [description, setDescription] = useState('');
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-
+  const [errors, setErrors] = useState({});
   const customPath = '/Category/add';
 
   const handleAdd = () => {
@@ -23,11 +23,22 @@ const Add = () => {
     CategoryService.create(newCategory)
       .then(() => {
         setSuccessMessage('Category added successfully');
+        setErrors({});
         // Optionally, you can redirect or perform other actions after successful addition
       })
       .catch((error) => {
-        setErrorMessage('Error adding category. Please try again.');
-        
+        if (error.status === 422) {
+          const newErrors = {};
+          error.data.data.forEach(item => {
+            const fieldName = item.path;
+            const errorMsg = item.msg;
+            newErrors[fieldName] = errorMsg;
+          });
+          setErrors(newErrors);
+
+        } else {
+          setErrorMessage('Error adding category. Please try again.');
+        }
       });
   };
 
@@ -47,6 +58,16 @@ const Add = () => {
                   <h4 className="card-title">Add Category</h4>
                 </div>
                 <div className="card-body">
+                  {errorMessage && (
+                    <div className="alert alert-danger" role="alert">
+                      {errorMessage}
+                    </div>
+                  )}
+                  {successMessage && (
+                    <div className="alert alert-success" role="alert">
+                      {successMessage}
+                    </div>
+                  )}
                   <form>
                     <div className="mb-3">
                       <label htmlFor="title" className="form-label">
@@ -59,6 +80,11 @@ const Add = () => {
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                       />
+                      {errors && errors.hasOwnProperty('title') && (
+                        <span className="alert alert-danger" role="alert">
+                          {errors.title}
+                        </span>
+                      )}
                     </div>
                     <div className="mb-3">
                       <label htmlFor="description" className="form-label">
@@ -71,17 +97,13 @@ const Add = () => {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                       ></textarea>
+                      {errors && errors.hasOwnProperty('description') && (
+                        <span className="alert alert-danger" role="alert">
+                          {errors.description}
+                        </span>
+                      )}
                     </div>
-                    {errorMessage && (
-                      <div className="alert alert-danger" role="alert">
-                        {errorMessage}
-                      </div>
-                    )}
-                    {successMessage && (
-                      <div className="alert alert-success" role="alert">
-                        {successMessage}
-                      </div>
-                    )}
+
                     <button
                       type="button"
                       className="btn btn-primary"

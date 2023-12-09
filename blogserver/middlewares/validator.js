@@ -27,8 +27,8 @@ const validateCategory = [
 const validateBlog = [
   body('title').isLength({ min: 3 }).withMessage('Title must be at least 3 characters long'),
   body('content').isLength({ min: 6 }).withMessage('Content must be at least 6 characters long'),
-  body('userId').isMongoId().withMessage('Invalid user ID'),
-  body('categoryId').isMongoId().withMessage('Invalid category ID'),
+  body('userId').isMongoId().withMessage('Invalid user ID.Please select User'),
+  body('categoryId').isMongoId().withMessage('Invalid category ID. Please select category'),
 ];
 const validateComment = [
   body('comment').isLength({ min: 3 }).withMessage('Title must be at least 3 characters long'),

@@ -3,17 +3,20 @@ import { useParams } from 'react-router-dom';
 import Breadcrumb from '../../navbar/Breadcrumb';
 import BlogService from '../../repositories/BlogService';
 import CategoryService from '../../repositories/CategoryService';
+import AuthUser from '../AuthUser';
 
 import CKEditorComponent from '../CKEditorComponent';
+
 const Edit = () => {
   const { blogId } = useParams(); // Get the blog id from the URL
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const { user } = AuthUser();
   const [selectedCategory, setSelectedCategory] = useState('');
   const [categories, setCategories] = useState([]);
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-
+  const [errors, setErrors] = useState({});
   const customPath = `/blog/edit/${blogId}`;
 
   useEffect(() => {
@@ -30,7 +33,7 @@ const Edit = () => {
       .then((blog) => {
         setTitle(blog.title);
         setContent(blog.content);
-        setSelectedCategory(blog.category.id);
+        setSelectedCategory(blog.category._id);
       })
       .catch((error) => {
         console.error('Error fetching blog details:', error);
@@ -57,15 +60,27 @@ const Edit = () => {
     }
 
     // Edit blog
-    const editedBlog = { title, content };
+    const editedBlog = { title, content,userId:user._id,categoryId:selectedCategory };
 
-    BlogService.update(blogId,selectedCategory, editedBlog)
+    BlogService.update(blogId, editedBlog)
       .then(() => {
         setSuccessMessage('Blog edited successfully');
         // Optionally, you can redirect or perform other actions after successful edit
       })
       .catch((error) => {
-        setErrorMessage('Error editing blog. Please try again.');
+        console.log(error);
+        if (error.status === 422) {
+          const newErrors = {};
+          error.data.data.forEach(item => {
+              const fieldName = item.path;
+              const errorMsg = item.msg;
+              newErrors[fieldName] = errorMsg;
+          });
+          setErrors(newErrors);
+
+      } else {
+        setErrorMessage('Error adding blog. Please try again.');
+      }
       });
   };
 
@@ -85,6 +100,16 @@ const Edit = () => {
                   <h4 className="card-title">Edit Blog</h4>
                 </div>
                 <div className="card-body">
+                {errorMessage && (
+                      <div className="alert alert-danger" role="alert">
+                        {errorMessage}
+                      </div>
+                    )}
+                    {successMessage && (
+                      <div className="alert alert-success" role="alert">
+                        {successMessage}
+                      </div>
+                    )}
                 <form>
                     <div className="mb-3">
                       <label htmlFor="title" className="form-label">
@@ -97,12 +122,22 @@ const Edit = () => {
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                       />
+                      {errors && errors.hasOwnProperty('title') && (
+                        <span className="alert alert-danger" role="alert">
+                          {errors.title}
+                        </span>
+                      )}
                     </div>
                     <div className="mb-3">
                       <label htmlFor="content" className="form-label">
                         content
                       </label>
                       <CKEditorComponent data={content} onChange={handleEditorChange} />
+                      {errors && errors.hasOwnProperty('content') && (
+                        <span className="alert alert-danger" role="alert">
+                          {errors.content}
+                        </span>
+                      )}
                     </div>
                     <div className="mb-3">
                       <label htmlFor="category" className="form-label">
@@ -118,22 +153,18 @@ const Edit = () => {
                           Select a category
                         </option>
                         {categories.map((category) => (
-                          <option key={category.id} value={category.id}>
+                          <option key={category._id} value={category._id}>
                             {category.title}
                           </option>
                         ))}
                       </select>
+                      {errors && errors.hasOwnProperty('categoryId') && (
+                        <span className="alert alert-danger" role="alert">
+                          {errors.categoryId}
+                        </span>
+                      )}
                     </div>
-                    {errorMessage && (
-                      <div className="alert alert-danger" role="alert">
-                        {errorMessage}
-                      </div>
-                    )}
-                    {successMessage && (
-                      <div className="alert alert-success" role="alert">
-                        {successMessage}
-                      </div>
-                    )}
+                    
                     <button
                       type="button"
                       className="btn btn-primary"

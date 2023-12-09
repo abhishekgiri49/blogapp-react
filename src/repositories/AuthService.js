@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const resource = '';
+const resource = 'http://localhost:8080/api/public/auth';
 
 const AuthService = {
   login(payload) {
     return new Promise((resolve, reject) => {
       axios
-        .post(`${resource}/api/login`, payload)
+        .post(`${resource}/login`, payload)
         .then(response => {
           resolve(response.data);
         })
@@ -32,7 +32,7 @@ const AuthService = {
   register(payload) {
     return new Promise((resolve, reject) => {
       axios
-        .post(`${resource}/api/public/auth/register`, payload)
+        .post(`${resource}/register`, payload)
         .then(response => {
           resolve(response.data);
         })

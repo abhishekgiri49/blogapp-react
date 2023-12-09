@@ -9,13 +9,13 @@ const Edit = () => {
   const [description, setDescription] = useState('');
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-
+  const [errors, setErrors] = useState({});
   const customPath = `/blog/edit/${categoryId}`;
 
   useEffect(() => {
     console.log(categoryId);
     // If editing, fetch category details
-      fetchCategoryDetails(categoryId);
+    fetchCategoryDetails(categoryId);
   }, [categoryId]);
 
   const fetchCategoryDetails = (id) => {
@@ -39,17 +39,28 @@ const Edit = () => {
 
     const categoryData = { title, description };
 
-    
-      // Update category
-      CategoryService.update(categoryId, categoryData)
-        .then(() => {
-          setSuccessMessage('Category updated successfully');
-          // Optionally, you can redirect or perform other actions after successful update
-        })
-        .catch((error) => {
+
+    // Update category
+    CategoryService.update(categoryId, categoryData)
+      .then(() => {
+        setSuccessMessage('Category updated successfully');
+        setErrors({});
+        // Optionally, you can redirect or perform other actions after successful update
+      })
+      .catch((error) => {
+        if (error.status === 422) {
+          const newErrors = {};
+          error.data.data.forEach(item => {
+            const fieldName = item.path;
+            const errorMsg = item.msg;
+            newErrors[fieldName] = errorMsg;
+          });
+          setErrors(newErrors);
+
+        } else {
           setErrorMessage('Error updating category. Please try again.');
-          console.error('Error updating category:', error);
-        });
+        }
+      });
   };
 
   return (
@@ -60,15 +71,25 @@ const Edit = () => {
         <div className="content-header row">
           <Breadcrumb path={customPath} />
         </div>
-      <div className="content-body">
-        <div className="row">
-          <div className="col-12">
-            <div className="card">
-              <div className="card-header">
-                <h4 className="card-title">Edit Category</h4>
-              </div>
-              <div className="card-body">
-              <form>
+        <div className="content-body">
+          <div className="row">
+            <div className="col-12">
+              <div className="card">
+                <div className="card-header">
+                  <h4 className="card-title">Edit Category</h4>
+                </div>
+                <div className="card-body">
+                  {errorMessage && (
+                    <div className="alert alert-danger" role="alert">
+                      {errorMessage}
+                    </div>
+                  )}
+                  {successMessage && (
+                    <div className="alert alert-success" role="alert">
+                      {successMessage}
+                    </div>
+                  )}
+                  <form>
                     <div className="mb-3">
                       <label htmlFor="title" className="form-label">
                         Title
@@ -80,6 +101,11 @@ const Edit = () => {
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                       />
+                      {errors && errors.hasOwnProperty('title') && (
+                        <span className="alert alert-danger" role="alert">
+                          {errors.title}
+                        </span>
+                      )}
                     </div>
                     <div className="mb-3">
                       <label htmlFor="description" className="form-label">
@@ -92,32 +118,26 @@ const Edit = () => {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                       ></textarea>
+                      {errors && errors.hasOwnProperty('description') && (
+                        <span className="alert alert-danger" role="alert">
+                          {errors.description}
+                        </span>
+                      )}
                     </div>
-                    {errorMessage && (
-                      <div className="alert alert-danger" role="alert">
-                        {errorMessage}
-                      </div>
-                    )}
-                    {successMessage && (
-                      <div className="alert alert-success" role="alert">
-                        {successMessage}
-                      </div>
-                    )}
-                    
                   </form>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={handleEdit}
-                >
-                  Update
-                </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={handleEdit}
+                  >
+                    Update
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };

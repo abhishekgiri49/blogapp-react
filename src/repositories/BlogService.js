@@ -1,11 +1,11 @@
 import Repository from './Repository';
-
+import FileUploadRepository from './FileUploadRepository';
 const resource = '/secured/blogs';
 
 const BlogService = {
   get() {
     return new Promise((resolve, reject) => {
-      Repository.get(`/public/blogs/`)
+      Repository.get(`${resource}/`)
         .then(response => {
           resolve(response.data.data);
         })
@@ -14,9 +14,9 @@ const BlogService = {
         });
     });
   },
-  getbyUser() {
+  getbyUser(id) {
     return new Promise((resolve, reject) => {
-      Repository.get(`${resource}/user/posts`)
+      Repository.get(`${resource}/user/${id}/posts`)
         .then(response => {
           resolve(response.data.data);
         })
@@ -38,7 +38,7 @@ const BlogService = {
   },
   findforPublic(id) {
     return new Promise((resolve, reject) => {
-      Repository.get(`/public/blogs/${id}`)
+      Repository.get(`${resource}/${id}`)
         .then(response => {
           resolve(response.data.data);
         })
@@ -49,7 +49,7 @@ const BlogService = {
   },
   getBlogbyCategory(id) {
     return new Promise((resolve, reject) => {
-      Repository.get(`/public/blogs/getby-category/${id}`)
+      Repository.get(`${resource}/category/${id}`)
         .then(response => {
           resolve(response.data.data);
         })
@@ -58,9 +58,9 @@ const BlogService = {
         });
     });
   },
-  create(payload,id) {
+  create(payload) {
     return new Promise((resolve, reject) => {
-      Repository.post(`${resource}/create/category/${id}`, payload)
+      FileUploadRepository.post(`${resource}`, payload)
         .then(response => {
           resolve(response.data.data);
         })
@@ -70,9 +70,9 @@ const BlogService = {
     });
   },
 
-  update(id,catId, payload) {
+  update(id, payload) {
     return new Promise((resolve, reject) => {
-      Repository.put(`${resource}/${id}/category/${catId}`, payload)
+      Repository.put(`${resource}/${id}`, payload)
         .then(response => {
           resolve(response.data.data);
         })

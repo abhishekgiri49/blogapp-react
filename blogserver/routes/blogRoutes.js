@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const upload = require('../helper/multerConfig');
 const { verifyToken } = require('../middlewares/auth');
 const Blog = require('../models/Blog');
 const { validateBlog, validate } = require('../middlewares/validator');
-const multer = require('multer');
+ // Adjust the path as needed
+
 const path = require('path');
 const {
   create,
@@ -11,39 +14,14 @@ const {
   getItemById,
   updateItemById,
   deleteItemById,
-  getBlogsByCategory
+  getBlogsByCategory,
+  getBlogsByUser
 } = require("../controllers/blogController");
 
 // Create a new item (requires token validation)
- router.post('/', verifyToken, validateBlog, validate, create);
+ router.post('/', verifyToken, upload.single('image'), validateBlog, validate, create);
  //normal route image is stored and work with this route
-//  let imgStore = multer.diskStorage({
-//   destination:function(req,file,cb){
-//     cb(null,'./public/img')},
-//     filename: function (req, file, cb) {
-//         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-//     }
-//   })
-// let upload = multer({storage:imgStore});
-// router.post('/',upload.single('image'), async(req,res)=>{
-//   try {
-//     const { title, content} = req.body;
-//     const imagePath = req.file;
-//     console.log(title,content,imagePath.filename)
-//     // const newBlog = new Blog({
-//     //   title,
-//     //   content,
-//     //   user: userId,
-//     //   category: categoryId,
-//     // });
-//     // const savedBlog = await newBlog.save();
 
-//     // res.status(201).json({status:201,  message: 'success',data:savedBlog  });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({status:500, message: 'Internal Server Error' });
-//   }
-// });
 // Get all items (requires token validation)
 router.get('/', getAll);
 
@@ -58,5 +36,7 @@ router.delete('/:id', verifyToken, deleteItemById);
 
 // Get blogs for a specific category
 router.get('/category/:categoryId', getBlogsByCategory);
+
+router.get('/user/:userId/posts',verifyToken, getBlogsByUser);
 
 module.exports = router;

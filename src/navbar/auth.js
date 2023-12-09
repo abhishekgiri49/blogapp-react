@@ -24,7 +24,7 @@ function Auth() {
                     <ul class="nav navbar-nav align-items-center ms-auto">
                     
                     <li className="nav-item">
-                        <Link className="nav-link" to="/home">Home</Link>
+                        <Link className="nav-link" to="/">Home</Link>
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/dashboard">Dashboard</Link>

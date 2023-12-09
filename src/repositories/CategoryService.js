@@ -15,7 +15,7 @@ const CategoryService = {
   },
   getforpublic() {
     return new Promise((resolve, reject) => {
-      Repository.get(`/public/categories/`)
+      Repository.get(`${resource}/`)
         .then(response => {
           resolve(response.data.data);
         })

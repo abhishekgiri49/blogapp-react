@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react';
 import { Link  } from 'react-router-dom';
+import AuthUser from '../AuthUser';
 import Breadcrumb from '../../navbar/Breadcrumb';
 import BlogService from '../../repositories/BlogService';
 import TextLimitedComponent from '../../navbar/TextLimitedComponent';
 export default function List() {
     const [blogs, setBlogs] = useState('');
     const customPath = '/Blog/list';
-
+    const { user } = AuthUser();
     useEffect(() => {
         fetchBlogList();
     }, []);
 
     const fetchBlogList = () => {
-        BlogService.getbyUser().then(data => {
+        BlogService.getbyUser(user._id).then(data => {
             setBlogs(data);
         });
     }
@@ -33,13 +34,13 @@ export default function List() {
         if (blogs) {
             return (
                 blogs.map((blog, index) => (
-                    <tr key={blog.id}>
+                    <tr key={blog._id}>
                         <td>{index + 1}</td>
                         <td>{blog.title}</td>
                         <td> <TextLimitedComponent htmlContent={blog.content} maxLength={50} /></td>
                         <td>{blog.category.title}</td>
-                        <td><Link to={`/dashboard/blog/edit/${blog.id}`}> <button type="button" class="btn btn-outline-primary">Edit</button></Link>
-                        <button type="button" class="btn btn-outline-danger" onClick={() => handleDelete(blog.id)}>Delete</button></td>
+                        <td><Link to={`/dashboard/blog/edit/${blog._id}`}> <button type="button" class="btn btn-outline-primary">Edit</button></Link>
+                        <button type="button" class="btn btn-outline-danger" onClick={() => handleDelete(blog._id)}>Delete</button></td>
                     </tr>
                 ))
             );

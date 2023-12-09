@@ -5,6 +5,7 @@ import CategoryService from '../repositories/CategoryService';
 import CommentService from '../repositories/CommentService';
 import image from '../app-assets/images/banner/banner-12.jpg';
 import avatar from '../app-assets/images/portrait/small/avatar-s-9.jpg';
+import AuthUser from './AuthUser';
 import CommentForm from './CommentForm';
 export default function BlogDetail() {
     const { blogId } = useParams();
@@ -13,11 +14,12 @@ export default function BlogDetail() {
     const [comments, setComments] = useState('');
     const [successMessage, setSuccessMessage] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
+    const { user } = AuthUser();
     useEffect(() => {
         fetchBlogDetails();
         fetchCategoryList();
         fetchCommentList();
-    }, []);
+    }, [blogId]);
     const fetchCategoryList = () => {
 
         CategoryService.getforpublic().then(data => {
@@ -43,10 +45,11 @@ export default function BlogDetail() {
     const handleCommentSubmit = (commentData) => {
         // Here, you can perform any logic you need with the comment data and the blogId
         // console.log('Blog ID:', blogId);
-        const newComment = { comment: commentData.comment };
-        CommentService.create(blogId, newComment)
+        const newComment = { userId:user._id,blogId:blogId,comment: commentData.comment };
+        CommentService.create(newComment)
       .then(() => {
         setSuccessMessage('Comment added successfully');
+        fetchCommentList();
         // Optionally, you can redirect or perform other actions after successful addition
       })
       .catch((error) => {
@@ -62,7 +65,7 @@ export default function BlogDetail() {
                 categories.map((category) => (
                     <div className="d-flex justify-content-start align-items-center mb-75">
 
-                        <Link to={`/blog-by-category/${category.id}`}>
+                        <Link to={`/blog-by-category/${category._id}`}>
                             <div className="blog-category-title text-body">{category.title}</div>
                         </Link>
                     </div>
@@ -106,7 +109,7 @@ export default function BlogDetail() {
                             <div className="row">
                                 <div className="col-12">
                                     <div className="card">
-                                        <img src={image} className="img-fluid card-img-top" alt="Blog Detail Pic" />
+                                        <img src={`/uploads/${blog.image}`} className="img-fluid card-img-top" alt="Blog Detail Pic" />
                                         <div className="card-body">
                                             <h4 className="card-title">{blog.title}</h4>
                                             <div className="d-flex">

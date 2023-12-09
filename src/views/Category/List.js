@@ -32,12 +32,12 @@ export default function List() {
         if (categories) {
             return (
                 categories.map((category, index) => (
-                    <tr key={category.id}>
+                    <tr key={category._id}>
                         <td>{index + 1}</td>
                         <td>{category.title}</td>
                         <td>{category.description}</td>
-                        <td><Link to={`/dashboard/category/edit/${category.id}`}> <button type="button" class="btn btn-outline-primary">Edit</button></Link>
-                        <button type="button" class="btn btn-outline-danger" onClick={() => handleDelete(category.id)}>Delete</button></td>
+                        <td><Link to={`/dashboard/category/edit/${category._id}`}> <button type="button" class="btn btn-outline-primary">Edit</button></Link>
+                        <button type="button" class="btn btn-outline-danger" onClick={() => handleDelete(category._id)}>Delete</button></td>
                     </tr>
                 ))
             );

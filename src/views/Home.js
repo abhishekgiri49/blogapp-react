@@ -57,7 +57,7 @@ export default function Home() {
                 categories.map((category) => (
                     <div class="d-flex justify-content-start align-items-center mb-75">
                                         
-                                        <Link to={`/blog-by-category/${category.id}`}> 
+                                        <Link to={`/blog-by-category/${category._id}`}> 
                                             <div class="blog-category-title text-body">{category.title}</div>
                                         </Link>
                                     </div>
@@ -92,7 +92,7 @@ export default function Home() {
                             {/* <!-- Blog List Items --> */}
                             <div class="row">
                                 {blogs.map(blog => (
-                                    <BlogCard key={blog.id} blog={blog} />
+                                    <BlogCard key={blog._id} blog={blog} />
                                 ))}
 
                             </div>

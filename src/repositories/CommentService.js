@@ -5,7 +5,7 @@ const resource = '/secured/comments';
 const CommentService = {
   get(id) {
     return new Promise((resolve, reject) => {
-      Repository.get(`public/comments/${id}`)
+      Repository.get(`${resource}/${id}/comments`)
         .then(response => {
           resolve(response.data.data);
         })
@@ -17,9 +17,9 @@ const CommentService = {
 
   
 
-  create(id,payload) {
+  create(payload) {
     return new Promise((resolve, reject) => {
-      Repository.post(`${resource}/create/blog/${id}`, payload)
+      Repository.post(`${resource}/`, payload)
         .then(response => {
           resolve(response.data.data);
         })

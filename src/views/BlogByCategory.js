@@ -15,7 +15,7 @@ export default function BlogByCategory() {
     useEffect(() => {
         fetchBlogList();
         fetchCategoryList();
-    }, []);
+    }, [categoryId]);
     const fetchCategoryList = () => {
         CategoryService.getforpublic().then(data => {
             setCategories(data);
@@ -62,7 +62,7 @@ export default function BlogByCategory() {
                             {/* <!-- Blog List Items --> */}
                             <div class="row">
                                 {blogs.map(blog => (
-                                    <BlogCard key={blog.id} blog={blog} />
+                                    <BlogCard key={blog._id} blog={blog} />
                                 ))}
 
                             </div>
