@@ -1,7 +1,17 @@
 import { Link } from 'react-router-dom';
-
+import AuthUser from '../views/AuthUser';
 import DashboardRoutes from './DashboardRoutes';
 function Sidebar() {
+    const { user } = AuthUser();
+    const [role, setRole] = useState('');
+    console.log(user);
+    useEffect(() => {
+        fetchRole();
+    }, []);
+
+    const fetchBlogList = () => {
+        setRole(user.role)
+    }
     return (
         <>
 
@@ -20,9 +30,10 @@ function Sidebar() {
                                     <Link to="/dashboard/blog/list" className="list-group-item list-group-item-action">
                                             <span className="align-middle">Blog List</span>
                                         </Link>
-                                        <Link to="/dashboard/category/list" className="list-group-item list-group-item-action">
+                                        {role=='admin' && (<Link to="/dashboard/category/list" className="list-group-item list-group-item-action">
                                             <span className="align-middle">Category</span>
-                                            </Link>
+                                            </Link>)
+                                        }
                                         {/* <a href="#" className="list-group-item list-group-item-action">
                                             <span className="align-middle">Draft</span>
                                         </a>
